@@ -19,13 +19,6 @@ class CoffeeShop {
     return [cheap.item];
   }
 
-  dueAmount() {
-    console.log(
-      "------------------------------------------------",
-      this.orders
-    );
-  }
-
   foodOnly() {
     const food = this.menu.reduce((acc, curr) => {
       if (curr.type === "snack") {
@@ -55,13 +48,19 @@ class CoffeeShop {
   }
 
   fullfillOrder() {
-    this.orders === []
+    this.orders.length === 0
       ? console.log(`All orders have been fulfilled!`)
-      : console.log(`The ${this.orders[0]} is ready!`);
+      : console.log(`The ${this.orders.shift()} is ready!`);
   }
 
   listOrders() {
     console.log("List of orders: __________", this.orders || []);
+  }
+
+  dueAmount() {
+    return this.menu
+      .filter((element) => this.orders.includes(element.item))
+      .reduce((acc, curr) => acc + curr.price, 0);
   }
 }
 
@@ -70,12 +69,26 @@ milchkaffee.listOrders();
 milchkaffee.addOrder("donut");
 milchkaffee.addOrder("lemonade");
 milchkaffee.addOrder("coffeecookie");
-milchkaffee.fullfillOrder();
+
 milchkaffee.listOrders();
 
+console.log("-------------------");
+milchkaffee.fullfillOrder();
+milchkaffee.fullfillOrder();
+milchkaffee.fullfillOrder();
+console.log("-------------------");
+
+milchkaffee.addOrder("donut");
+milchkaffee.addOrder("lemonade");
+milchkaffee.addOrder("coffeecake");
+milchkaffee.addOrder("coffeecookie");
+console.log("--------------------------");
+milchkaffee.listOrders();
+console.log("---------------");
 console.log(milchkaffee.drinksOnly());
 console.log(milchkaffee.foodOnly());
-
+console.log("----------------------");
 console.log(milchkaffee.cheapestProduct());
 
-milchkaffee.dueAmount();
+console.log("-------------------------");
+console.log("Due amount is Euro:", milchkaffee.dueAmount());
